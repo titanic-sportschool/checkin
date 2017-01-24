@@ -2,7 +2,8 @@ from Database.database import DatabaseClass
 import hashlib
 
 # Constants
-LOCATION = 1;
+# TODO: Maybe ask the user for location (for demonstration purposes)
+LOCATION = 1
 
 db = DatabaseClass()
 

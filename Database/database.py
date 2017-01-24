@@ -8,7 +8,7 @@
 
 #Imports
 import pymysql
-import time
+import datetime
 from Utils.config import DB_HOST, DB_PASS, DB_USER, DB
 
 # Create a connection to the database
@@ -109,5 +109,27 @@ class DatabaseClass:
         except Exception as error:
             print("Exception:", error)
 
-    def getCustomer(self, email, password):
-        return self.select("SELECT * FROM logindata WHERE email = '" + email + "' AND password = '" + password + "' LIMIT 1")
+    def get_customer(self, email, password) -> dict:
+        query = "SELECT " \
+                "Login.Email, " \
+                "Login.User_ID, " \
+                "Login.User_Role_ID " \
+                "FROM Login WHERE email = '{0}' AND password = '{1}' LIMIT 1".format(email, password)
+        return self.select(query)
+
+    def get_check_in_state(self, user_id):
+        query = "SELECT " \
+                "Log.Is_checkin, " \
+                "Log.Location_ID " \
+                "FROM Log WHERE User_ID = '{0}' ORDER BY Date DESC LIMIT 1".format(user_id)
+        return self.select(query)
+
+    def check_in_out(self, user_id, location, is_check_in = True):
+        date = datetime.datetime.now()
+        query = "INSERT INTO Log(Date, Is_checkin, User_ID, Location_ID) VALUES('{0}', {1}, {2}, {3});".format(
+            date,
+            "true" if is_check_in else "false",
+            user_id,
+            location
+        )
+        self.insert(query)

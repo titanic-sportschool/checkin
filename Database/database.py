@@ -40,11 +40,10 @@ class DatabaseClass:
                 select: dictionary with the data returned from the SQL query
         """
         try:
-            result = ''
             current.execute(query)
-            for data in current:
-                result = data
-            return result
+            result = current.fetchall()
+
+            return result if len(result) > 1 else result[0]
         except Exception as error:
             print("Exception:", error)
 
@@ -160,3 +159,15 @@ class DatabaseClass:
             location_id
         )
         self.insert(query)
+
+    def get_locations(self) -> dict:
+        """"
+            Gets every location
+
+            Args:
+                --
+            Returns:
+                Dict: dictionary with the locations
+        """
+        query = "SELECT ID, name FROM Location"
+        return self.select(query)

@@ -70,7 +70,7 @@ def login_check():
     while True:
         # If there is no login
         if not user:
-            email = input('Name: ')
+            email = input('Email: ')
             pw = input('PW: ')
 
             # Sha1 encryption for password
@@ -102,7 +102,7 @@ def main():
 
     print('Select a location: ')
     for i in locations:
-        print(i['ID'], '-', i['name'])
+        print(i['ID'], '-', i['name']) # No idea why name needs to be lowercase
 
     while not location_selected:
         location = int(input('Location ID: '))
